@@ -22,28 +22,54 @@ $(function() {
 	 		-- Input values are strings, remember to parse it!
 			-- Regex for checking digit input is '^\\d+$'
 			-- Look up how setInterval() works, you will need it.
-	*/		
+	*/
+
+
+    $('#countdownButton').click(function() {
+        var regExDigit = new RegExp('^\\d+$');
+        var timeInput = $('#time');
+        var confettiInput = $('#size');
+        var timer;
+
+        if(regExDigit.test(timeInput.val()) && regExDigit.test(timeInput.val())) {
+            window.clearInterval(timer);
+            var curSec = (parseInt(timeInput.val()));
+            $('#displayedTimer').text(curSec + 's');
+            timer = window.setInterval(function() {
+                curSec = countDown(curSec, parseInt(confettiInput.val()), timer);
+            }, 1000);
+        } else {
+            timeInput.val('Numbers Only!');
+            confettiInput.val('Numbers Only!');
+        }
+    });
 });
 
-function countDown() {
+function countDown(secs, confettiSize, timer) {
 	// Hint: if time < 0, stop the countdown, otherwise refresh the timer display & call createConfetti().
 	// Hint: to stop countdown, look up clearInterval() function.
+    --secs;
+    $('#displayedTimer').text(secs + 's');
+    if((secs) <= 0) {
+        window.clearInterval(timer);
+    }
+    return secs;
 }
 
-function createConfetti() {
+function createConfetti(confettiSize) {
 	// Get confetti's size. If user doesn't specify or type in invalid value, switch to a default size.
 
-
 	//	Random color RGB, use Math.floor(Math.random() * 255)
-
+    var ranCol = Math.floor(Math.random() * 255);
 
 	// Random locations on screen
 	// Hint: use Math.floor, Math.random, window.innerHeight/Width to compute px value.
-
+    var locX = Math.floor(Math.random() * window.innerHeight);
+    var locY = Math.floor(Math.random() * window.innerWidth);
 
 	// Add confetti and apply styles: width/height, location, background-color.
 	// Hint: use fixed positioning with top & left attributes
-
+    var confetti = $('div');
 
 	// [Optional]
 	// Change the timer display's font color to the same as the last confetti's
